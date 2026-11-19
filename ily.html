@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Heart Full of Love ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    position: absolute;
+    top: 8%;
+    width: 100%;
+    text-align: center;
+    color: #ff1744;
+    font-size: clamp(24px, 5vw, 40px);
+    text-shadow: 0 0 20px red;
+    letter-spacing: 4px;
+}
+
+#heart {
+    position: absolute;
+    inset: 0;
+}
+
+.word {
+    position: absolute;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+    pointer-events: none;
+    text-shadow: 0 0 10px currentColor;
+    transition:
+        left 2s ease-in-out,
+        top 2s ease-in-out,
+        opacity 1s ease,
+        transform 2s ease;
+}
+
+.footer {
+    position: absolute;
+    bottom: 7%;
+    width: 100%;
+    text-align: center;
+    color: #ff6680;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1> to colie ❤️</h1>
+
+<div id="heart"></div>
+
+<div class="footer">
+    I love you
+    -Dean
+</div>
+
+<script>
+
+const words = [
+    "I LOVE YOU", "MAHAL KITA", "JE T'AIME",
+    "TE AMO", "TI AMO", "愛してる",
+    "사랑해", "我爱你", "ICH LIEBE DICH",
+    "EU TE AMO", "SENI SEVIYORUM",
+    "NAKUPENDA", "KOCHAM CIĘ",
+    "IK HOU VAN JOU", "Σ' ΑΓΑΠΩ",
+    "Я ТЕБЯ ЛЮБЛЮ", "TE QUIERO",
+    "SAYA CINTA KAMU", "ANH YÊU EM",
+    "PHOM RAK KHUN", "VOLIM TE",
+    "OBICHAM TE", "TE IUBESC",
+    "AISHITERU", "NGIYAKUTHANDA",
+    "MI AMAS VIN", "MO NI FE RE",
+    "MAIN TUMSE PYAR KARTA HOON"
+];
+
+const colors = [
+    "#ff0033",
+    "#ff1744",
+    "#e60026",
+    "#ff3366",
+    "#ff4d6d",
+    "#ff6680",
+    "#cc0033",
+    "#ff8095"
+];
+
+const container = document.getElementById("heart");
+const elements = [];
+
+const total = 220;
+
+for (let i = 0; i < total; i++) {
+    const span = document.createElement("span");
+
+    span.className = "word";
+    span.textContent = words[i % words.length];
+
+    span.style.color = colors[
+        Math.floor(Math.random() * colors.length)
+    ];
+
+    container.appendChild(span);
+    elements.push(span);
+}
+
+// Mathematical heart shape
+function heartPoint(t) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+
+    const y = -(13 * Math.cos(t)
+        - 5 * Math.cos(2 * t)
+        - 2 * Math.cos(3 * t)
+        - Math.cos(4 * t));
+
+    return { x, y };
+}
+
+function formHeart() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const scale = Math.min(width / 40, height / 35);
+
+    elements.forEach((el, i) => {
+
+        const t = (i / total) * Math.PI * 2;
+        const point = heartPoint(t);
+
+        const x = width / 2 + point.x * scale;
+        const y = height / 2 + point.y * scale;
+
+        el.style.left = x + "px";
+        el.style.top = y + "px";
+        el.style.opacity = 1;
+        el.style.transform = "translate(-50%, -50%)";
+    });
+}
+
+function scatterWords() {
+    elements.forEach(el => {
+        el.style.left = Math.random() * window.innerWidth + "px";
+        el.style.top = Math.random() * window.innerHeight + "px";
+        el.style.opacity = 0.7;
+    });
+}
+
+function animate() {
+    formHeart();
+
+    setTimeout(() => {
+        scatterWords();
+    }, 4000);
+
+    setTimeout(() => {
+        formHeart();
+    }, 7000);
+}
+
+// Initial animation
+scatterWords();
+
+setTimeout(() => {
+    animate();
+    setInterval(animate, 10000);
+}, 1000);
+
+window.addEventListener("resize", formHeart);
+
+</script>
+
+</body>
+</html>
